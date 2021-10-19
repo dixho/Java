@@ -6,7 +6,7 @@ import java.lang.Math;
 /**
  *
  * @author Dixho
- * @version 0.0.3
+ * @version 0.0.4
  */
 public class JavATM {
 
