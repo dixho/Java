@@ -20,12 +20,12 @@ public class Tests {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String s;
-        System.out.print("Introduzca texto: ");
+        imprimir("Introduzca texto: ");
         s = sc.nextLine(); //asigna a la variable s el String introducido por teclado
-        System.out.println(s);
+        imprimirln(s);
         if (s == "a"){
         
-            System.out.println("funciona");}
+            imprimirln("funciona");}
     }
     
 }
