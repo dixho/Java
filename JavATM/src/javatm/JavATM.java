@@ -6,105 +6,161 @@ import java.lang.Math;
 /**
  *
  * @author Dixho
- * @version 0.0.5
+ * @version 0.0.5.1
  */
 public class JavATM {
+	static int saldo = 1000;
+	static int efectivo = 237;
+	static int contadorErrorUsuario = 0;
+	static int contadorErrorPin = 0;
 
 	public static void main(String[] args) {
 		// Creación de variables
-		Scanner teclado = new Scanner(System.in);
-		String user;
-		int pin, sel1, sel2, cont;
-		double saldo, ingreso, retirada, efectivo;
-		cont = 0;
-		saldo = 1000;
-		efectivo = 237;
-		boolean bucle;
-		bucle = true;
 
 		// Presentación del cajero
 		imprimirln("Bienvenido a JavATM.\n");
-		while (cont < 3) {
+		ingresoUsuario();
 
-			imprimir("Ingrese su usuario: ");
-			user = teclado.nextLine();
+	}
 
-			if (user.equals("flf") || user.equals("FLF"))// Comprobación de que el usuario es el correcto
-			{
-				imprimirln("Usuario Correcto.");
-				imprimir("Por favor, ingrese su PIN: ");
-				pin = Math.abs(teclado.nextInt());
-				if (pin == 1234) { // Comprobación del PIN
-					imprimirln("\nPIN Correcto");
+	private static void ingresoUsuario() {
+		imprimir("Ingrese su usuario: ");
+		String user = inputString();
+		if (user.equals("flf") || user.equals("FLF")) {
+			imprimirln("Usuario Correcto.");
+			ingresoPin();
+		} else {
+			userIncorrecto();
+		}
 
-					while (bucle == true) {
-						imprimir(
-								"\n Elija que desea hacer:\n \n 1. Ver Saldo. \n 2. Ingresar. \n 3. Retirar \n 4. Salir. ");
-						imprimir("\n: ");
-						sel1 = Math.abs(teclado.nextInt());
-						if (sel1 == 1) {
-							imprimirln("\nSaldo actual: " + saldo + "€");
-						}
-						if (sel1 == 2) { // Ingreso
-							imprimir("\nCantidad a ingresar: ");
-							ingreso = Math.abs(teclado.nextDouble());
-							if (ingreso <= efectivo) {
-								saldo = saldo + ingreso;
-								imprimir("¿Ver saldo? 1/0: ");
-								sel2 = teclado.nextInt();
-								if (sel2 == 1) {
-									imprimirln("\nSaldo actual: " + saldo + "€");
-								}
-							} else {
-								imprimirln("Ha ingresado una cantidad erronea.");
-							}
+	}
 
-						}
-						if (sel1 == 3) { // Retirada
-							imprimir("\nCantidad a retirar: ");
-							retirada = Math.abs(teclado.nextDouble());
-							saldo = saldo - retirada;
-							imprimir("¿Ver saldo? 1/0: ");
-							sel2 = teclado.nextInt();
-							if (sel2 == 1) {
-								imprimirln("\nSaldo actual: " + saldo + "€");
-							}
+	private static void userIncorrecto() {
+		contadorErrorUsuario++;
+		imprimirln("Usuario incorrecto");
+		if(contadorErrorUsuario == 3) {
+			usuarioError();
+		}else {ingresoUsuario();}
 
-						}
-						if (sel1 == 4) { // Salida
-							imprimirln("Gracias por su visita");
-							bucle = false;
-						}
-						if (sel1 != 1 && sel1 != 2 && sel1 != 3 && sel1 != 4) {
-							imprimirln("¡Opción incorrecta!");
-						}
-					}
-				} else {
-					imprimirln("\nPIN Incorrecto, vuelva a intentarlo");
-					cont++;
-				}
-			} else {
-// Intento de fallos maximos erroneos
-				if (cont <= 2) {
+	}
 
-					
+	private static void usuarioError() {
+		imprimirln("Demasiados intentos fallidos");
+		
+	}
 
-					imprimirln("\nUsuario Incorrecto, vuelva a intentarlo");
+	private static void ingresoPin() {
+		int pin = input();
+		imprimir("ingrese su PIN: ");
+		pin = Math.abs(input());
+		comprobarPIN(pin);
 
-					//imprimirln(cont);
-					cont++;
+	}
 
-				} else {
-					imprimirln("Usuario incorrecto, demasiados intentos fallidos");
-					//imprimirln(cont);
-				}
-
-			}
+	private static void comprobarPIN(int pin) {
+		if (pin == 1234) { // Comprobación del PIN
+			imprimirln("\nPIN Correcto");
+			seleccionarOpcion();
+		} else {
+			pinIncorrecto();
 		}
 	}
 
-	private static void imprimirln(String texto) {
-		imprimirln(texto);
+	private static void pinIncorrecto() {
+		contadorErrorPin++;
+		imprimirln("PIN incorrecto ");
+		if (contadorErrorPin == 3) {
+			errorPin();
+		}else {ingresoPin();}
+
+	}
+
+	private static void errorPin() {
+		imprimirln("Demasiados intentos fallidos");
 		
+	}
+
+	private static void seleccionarOpcion() {
+		int seleccion;
+		imprimir("\n Elija que desea hacer:\t\t Efectivo: "+efectivo+"€\n \n 1. Ver Saldo. \n 2. Ingresar. \n 3. Retirar \n 4. Salir. ");
+		imprimir("\n: ");
+		seleccion = input();
+		if (seleccion == 1) {
+			verSaldo();
+		}
+		if (seleccion == 2) {
+			ingresar();
+		}
+		if (seleccion == 3) {
+			retirar();
+		}
+		if (seleccion == 4) {
+			salir();
+		}
+	}
+
+	private static void verSaldo() {
+		imprimirln("\nSaldo actual: " + saldo + "€");
+		seleccionarOpcion();
+	}
+
+	private static void ingresar() {
+		int sel, ingreso;
+		imprimir("\nCantidad a ingresar: ");
+		ingreso = Math.abs(input());
+		if (ingreso <= efectivo) {
+			saldo += ingreso;
+			efectivo -= ingreso;
+			imprimir("¿Ver saldo? 1/0: ");
+			sel = input();
+			if (sel == 1) {
+				imprimirln("\nSaldo actual: " + saldo + "€");
+			}
+		} else {
+			imprimirln("Ha ingresado una cantidad erronea.");
+		}
+		seleccionarOpcion();
+	}
+
+	private static void retirar() {
+		int retirada, sel;
+		imprimir("\nCantidad a retirar: ");
+		retirada = Math.abs(input());
+		saldo -= retirada;
+		efectivo += retirada;
+		imprimir("¿Ver saldo? 1/0: ");
+		sel = input();
+		if (sel == 1) {
+			imprimirln("\nSaldo actual: " + saldo + "€");
+		}
+		seleccionarOpcion();
+
+	}
+
+	private static void salir() {
+		imprimirln("Gracias por su visita");
+
+	}
+
+	private static int input() {
+		Scanner teclado = new Scanner(System.in);
+		return (teclado.nextInt());
+
+	}
+
+	private static String inputString() {
+		Scanner teclado = new Scanner(System.in);
+		return (teclado.nextLine());
+
+	}
+
+	private static void imprimirln(String texto) {
+		System.out.println(texto);
+
+	}
+
+	private static void imprimir(String texto) {
+		System.out.print(texto);
+
 	}
 }
