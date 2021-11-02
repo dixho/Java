@@ -6,13 +6,13 @@ import java.lang.Math;
 /**
  *
  * @author Dixho
- * @version 0.0.6
+ * @version 0.0.7
  */
 public class JavATM {
 	static int saldo = 1000;
 	static int efectivo = 237;
-	static int contadorErrorUsuario = 0;
-	static int contadorErrorPin = 0;
+	static int contadorErrorUsuario = 3;
+	static int contadorErrorPin = 3;
 
 	public static void main(String[] args) {
 
@@ -22,7 +22,7 @@ public class JavATM {
 
 	}
 
-	private static void seleccionPrimera() {
+	private static void seleccionPrimera() { // Metodo para la primera seleccion
 		int seleccion;
 		imprimir("Que desea hacer: \n 1.Acceder a mi cuenta \n 2.Salir\n: ");
 		seleccion = input();
@@ -37,7 +37,7 @@ public class JavATM {
 	private static void ingresoUsuario() { // Metodo para ingresar usuario
 		imprimir("Ingrese su usuario: ");
 		String user = inputString();
-		if (user.equals("flf") || user.equals("FLF")) {
+		if (user.equalsIgnoreCase("flf")) {
 			imprimirln("Usuario Correcto.");
 			ingresoPin();
 		} else {
@@ -48,9 +48,11 @@ public class JavATM {
 
 	private static void userIncorrecto() { // Metodo para avisar de que el usuario es incorrecto y comprobar cuantos
 											// intentos ha realizado
-		contadorErrorUsuario++;
+		contadorErrorUsuario--;
 		imprimirln("Usuario incorrecto");
-		if (contadorErrorUsuario == 3) {
+		imprimirln("Tiene "+(contadorErrorUsuario+1)+" intento/s");
+		//imprimir(""+contadorErrorUsuario);
+		if (contadorErrorUsuario < 0 ) {
 			errorUsuario();
 		} else {
 			ingresoUsuario();
@@ -83,9 +85,11 @@ public class JavATM {
 
 	private static void pinIncorrecto() { // Metodo para avisar de que el PIN es incorrecto y comprobar cuantos intentos
 											// ha realizado
-		contadorErrorPin++;
+		contadorErrorPin--;
 		imprimirln("PIN incorrecto ");
-		if (contadorErrorPin == 3) {
+		imprimirln("Tiene "+(contadorErrorPin+1)+" intento/s");
+		//imprimir(""+contadorErrorPin);
+		if (contadorErrorPin < 0) {
 			errorPin();
 		} else {
 			ingresoPin();
@@ -170,7 +174,7 @@ public class JavATM {
 
 	}
 	
-	private static void mostrarSaldo() {
+	private static void mostrarSaldo() { // Metodo para mostrar el saldo tras un ingreso o retirada
 		int sel;
 		imprimir("¿Ver saldo? 1/0: ");
 		sel = input();
@@ -179,31 +183,31 @@ public class JavATM {
 		
 	}
 
-	private static int input() { // Metodo del Scanner para ingresar numeors por teclado
+	static int input() { // Metodo del Scanner para ingresar numeors por teclado
 		Scanner teclado = new Scanner(System.in);
 		return (teclado.nextInt());
 
 	}
 
-	private static String inputString() { // Metodo del escaner para Strings
+	static String inputString() { // Metodo del escaner para Strings
 		Scanner teclado = new Scanner(System.in);
 		return (teclado.nextLine());
 
 	}
 
-	private static void imprimirln(String texto) { // Metodo de println
+	static void imprimirln(String texto) { // Metodo de println
 		System.out.println(texto);
 
 	}
 
-	private static void imprimir(String texto) { // Metodo de print
+	static void imprimir(String texto) { // Metodo de print
 		System.out.print(texto);
 
 	}
 	
-	private static void debugReseteoSaldoEfectivo() {
+	private static void debugReseteoSaldoEfectivo() { // Modo debug para volver a los valores iniciales sin reiniciar
 		saldo = 1000;
-		efectivo = 1237;
+		efectivo = 237;
 		imprimir("Debug activado");
 		seleccionarOpcion();
 		
