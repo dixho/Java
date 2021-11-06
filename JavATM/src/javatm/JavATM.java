@@ -6,13 +6,12 @@ import java.lang.Math;
 /**
  *
  * @author Dixho
- * @version 0.0.7
+ * @version 0.0.8
  */
 public class JavATM {
 	static int saldo = 1000;
 	static int efectivo = 237;
-	static int contadorErrorUsuario = 3;
-	static int contadorErrorPin = 3;
+	static int contadorError = 3;
 
 	public static void main(String[] args) {
 
@@ -39,6 +38,7 @@ public class JavATM {
 		String user = inputString();
 		if (user.equalsIgnoreCase("flf")) {
 			imprimirln("Usuario Correcto.");
+			contadorError=3;
 			ingresoPin();
 		} else {
 			userIncorrecto();
@@ -48,11 +48,11 @@ public class JavATM {
 
 	private static void userIncorrecto() { // Metodo para avisar de que el usuario es incorrecto y comprobar cuantos
 											// intentos ha realizado
-		contadorErrorUsuario--;
+		contadorError--;
 		imprimirln("Usuario incorrecto");
-		imprimirln("Tiene "+(contadorErrorUsuario+1)+" intento/s");
-		//imprimir(""+contadorErrorUsuario);
-		if (contadorErrorUsuario < 0 ) {
+		imprimirln("Tiene "+(contadorError+1)+" intento/s");
+		//imprimir(""+contadorError);
+		if (contadorError < 0 ) {
 			errorUsuario();
 		} else {
 			ingresoUsuario();
@@ -85,11 +85,11 @@ public class JavATM {
 
 	private static void pinIncorrecto() { // Metodo para avisar de que el PIN es incorrecto y comprobar cuantos intentos
 											// ha realizado
-		contadorErrorPin--;
+		contadorError--;
 		imprimirln("PIN incorrecto ");
-		imprimirln("Tiene "+(contadorErrorPin+1)+" intento/s");
-		//imprimir(""+contadorErrorPin);
-		if (contadorErrorPin < 0) {
+		imprimirln("Tiene "+(contadorError+1)+" intento/s");
+		//imprimir(""+contadorError);
+		if (contadorError < 0) {
 			errorPin();
 		} else {
 			ingresoPin();
@@ -103,32 +103,35 @@ public class JavATM {
 	}
 
 	private static void seleccionarOpcion() { // Metodo para seleccionar la opción a realizar
+		boolean bucle = true;
 		int seleccion;
-		imprimir("\n Elija que desea hacer:\t\t Efectivo: " + efectivo
-				+ "€\n \n 1. Ver Saldo. \n 2. Ingresar. \n 3. Retirar \n 4. Salir. ");
-		imprimir("\n: ");
-		seleccion = input();
-		if (seleccion == 1) {
-			verSaldo();
-		}
-		if (seleccion == 2) {
-			ingresar();
-		}
-		if (seleccion == 3) {
-			retirar();
-		}
-		if (seleccion == 4) {
-			salir();
-		}
-		if (seleccion == 5) {
-			debugReseteoSaldoEfectivo();
+		while(bucle==true) {
+			imprimir("\n Elija que desea hacer:\t\t Efectivo: " + efectivo
+					+ "€\n \n 1. Ver Saldo. \n 2. Ingresar. \n 3. Retirar \n 4. Salir. ");
+			imprimir("\n: ");
+			seleccion = input();
+			if (seleccion == 1) {
+				verSaldo();
+			}
+			if (seleccion == 2) {
+				ingresar();
+			}
+			if (seleccion == 3) {
+				retirar();
+			}
+			if (seleccion == 4) {
+				bucle = false;
+				salir();
+			}
+			if (seleccion == 5) {
+				debugReseteoSaldoEfectivo();
+			}
 		}
 	}
 
 	
 	private static void verSaldo() { // Metodo para ver el saldo
 		imprimirln("\nSaldo actual: " + saldo + "€");
-		seleccionarOpcion();
 	}
 
 	private static void ingresar() { // Metodo para ingresar en el cajero
@@ -143,7 +146,6 @@ public class JavATM {
 		 else {
 			imprimirln("Ha ingresado una cantidad erronea.");
 		}
-		seleccionarOpcion();
 	}
 
 
@@ -164,12 +166,10 @@ public class JavATM {
 			mostrarSaldo();	
 		}
 		
-		seleccionarOpcion();
 
 	}
 
 	private static void salir() { // Metodo para terminar el cajero
-
 		imprimirln("Gracias por su visita");
 
 	}
