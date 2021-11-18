@@ -12,7 +12,7 @@ import java.lang.Math;
 public class JavATM {
 	static boolean bucle=true;
 	static int contadorError = 3;
-	static String[] si = new String[] {"si","sí","Si","Sí","SI","SÍ","s","S"};
+	static String[] si = new String[] {"si","sí","s"};
 	static int aux=-1;
 
 	public static void main(String[] args) {
@@ -190,9 +190,10 @@ public class JavATM {
 		imprimir("¿Ver saldo? Sí/No: ");
 		sel = inputString();
 		int x = Arrays.binarySearch(si,sel);
-		if (x != -1) {
+		for(int f=0;f<si.length;f++) {
+		if (sel.equalsIgnoreCase(si[f])) {
 			imprimirln("\nSaldo actual: " + users.saldo[aux] + "€");}
-		
+		}
 	}
 
 	static int input() { // Metodo del Scanner para ingresar numeors por teclado
