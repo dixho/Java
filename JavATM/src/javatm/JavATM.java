@@ -11,13 +11,11 @@ import java.lang.Math;
  */
 public class JavATM {
 	static boolean bucle=true;
-	static int saldo = 1000;
-	static int efectivo = 237;
 	static int contadorError = 3;
 	static String[] si = new String[] {"si","sí","Si","Sí","SI","SÍ","s","S"};
-	static String[] users = new String[] {"flf","test"};
-	static int[] pins = new int[] {1234,0000};
-	static int auxpin;
+	
+	
+	static int aux;
 
 	public static void main(String[] args) {
 
@@ -42,12 +40,12 @@ public class JavATM {
 	private static void ingresoUsuario() { // Metodo para ingresar usuario
 		imprimir("Ingrese su usuario: ");
 		String user = inputString();
-		for(int f=0;f<users.length;f++) {
-			if (user.equalsIgnoreCase(users[f])) {
-				auxpin = f;
+		for(int f=0;f<users.users.length;f++) {
+			if (user.equalsIgnoreCase(users.users[f])) {
+				aux = f;
 				imprimirln("Usuario Correcto.");
 				contadorError=3;
-				f=users.length;
+				f=users.users.length;
 				ingresoPin();
 			} else {
 				userIncorrecto();
@@ -87,7 +85,7 @@ public class JavATM {
 
 	private static void comprobarPIN(int pin) { // Metodo para comprobar si el PIN es correcto y cuantos intentos
 												// fallidos
-			if (pin == pins[auxpin]) { // Comprobación del PIN
+			if (pin == users.pins[aux]) { // Comprobación del PIN
 				imprimirln("\nPIN Correcto");
 				seleccionarOpcion();
 			} else {
@@ -118,7 +116,7 @@ public class JavATM {
 	private static void seleccionarOpcion() { // Metodo para seleccionar la opción a realizar
 		int seleccion;
 		while(bucle) {
-			imprimir("\n Elija que desea hacer:\t\t Efectivo: " + efectivo
+			imprimir("\n Elija que desea hacer:\t\t Efectivo: " + users.efectivo[aux]
 					+ "€\n \n 1. Ver Saldo. \n 2. Ingresar. \n 3. Retirar \n 4. Salir. ");
 			imprimir("\n: ");
 			seleccion = input();
@@ -143,16 +141,16 @@ public class JavATM {
 
 	
 	private static void verSaldo() { // Metodo para ver el saldo
-		imprimirln("\nSaldo actual: " + saldo + "€");
+		imprimirln("\nSaldo actual: " + users.saldo[aux] + "€");
 	}
 
 	private static void ingresar() { // Metodo para ingresar en el cajero
 		int sel, ingreso;
 		imprimir("\nCantidad a ingresar: ");
 		ingreso = Math.abs(input());
-		if (ingreso <= efectivo) {
-			saldo += ingreso;
-			efectivo -= ingreso;
+		if (ingreso <= users.efectivo[aux]) {
+			users.saldo[aux] += ingreso;
+			users.efectivo[aux] -= ingreso;
 			mostrarSaldo();
 			}
 		 else {
@@ -165,16 +163,16 @@ public class JavATM {
 		int retirada, sel;
 		imprimir("\nCantidad a retirar: ");
 		retirada = Math.abs(input());
-		if (retirada <= saldo) {
-			saldo -= retirada;
-			efectivo += retirada;
+		if (retirada <= users.saldo[aux]) {
+			users.saldo[aux] -= retirada;
+			users.efectivo[aux] += retirada;
 			mostrarSaldo();
 				}
 		else {
 			imprimir("Saldo insuficiente\n¿Qué desea hacer?:\n 1.Retirar hasta 0€\n 2.Dejar la cuenta en negativo\n:");
 			sel = input();
-			if (sel == 1){saldo = 0;}
-			else {saldo -= retirada;}
+			if (sel == 1){users.saldo[aux] = 0;}
+			else {users.saldo[aux] -= retirada;}
 			mostrarSaldo();	
 		}
 		
@@ -193,7 +191,7 @@ public class JavATM {
 		sel = inputString();
 		int x = Arrays.binarySearch(si,sel);
 		if (x != -1) {
-			imprimirln("\nSaldo actual: " + saldo + "€");}
+			imprimirln("\nSaldo actual: " + users.saldo[aux] + "€");}
 		
 	}
 
@@ -220,8 +218,8 @@ public class JavATM {
 	}
 	
 	private static void debugReseteoSaldoEfectivo() { // Modo debug para volver a los valores iniciales sin reiniciar
-		saldo = 1000;
-		efectivo = 237;
+		users.saldo[aux] = 1000;
+		users.efectivo[aux] = 237;
 		imprimir("Debug activado");
 		seleccionarOpcion();
 		
