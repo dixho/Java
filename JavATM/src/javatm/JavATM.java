@@ -7,15 +7,13 @@ import java.lang.Math;
 /**
  *
  * @author Dixho
- * @version 0.0.9
+ * @version 0.0.9.2
  */
 public class JavATM {
 	static boolean bucle=true;
 	static int contadorError = 3;
 	static String[] si = new String[] {"si","sí","Si","Sí","SI","SÍ","s","S"};
-	
-	
-	static int aux;
+	static int aux=-1;
 
 	public static void main(String[] args) {
 
@@ -47,10 +45,12 @@ public class JavATM {
 				contadorError=3;
 				f=users.users.length;
 				ingresoPin();
-			} else {
-				userIncorrecto();
 			}
 		}
+		if(aux == -1) {
+			userIncorrecto();
+		}
+		
 		
 		
 
