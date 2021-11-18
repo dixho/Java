@@ -1,17 +1,23 @@
 package javatm;
 
 import java.util.Scanner;
+import java.util.Arrays;
 import java.lang.Math;
 
 /**
  *
  * @author Dixho
- * @version 0.0.8
+ * @version 0.0.9
  */
 public class JavATM {
+	static boolean bucle=true;
 	static int saldo = 1000;
 	static int efectivo = 237;
 	static int contadorError = 3;
+	static String[] si = new String[] {"si","sí","Si","Sí","SI","SÍ","s","S"};
+	static String[] users = new String[] {"flf","test"};
+	static int[] pins = new int[] {1234,0000};
+	static int auxpin;
 
 	public static void main(String[] args) {
 
@@ -36,13 +42,19 @@ public class JavATM {
 	private static void ingresoUsuario() { // Metodo para ingresar usuario
 		imprimir("Ingrese su usuario: ");
 		String user = inputString();
-		if (user.equalsIgnoreCase("flf")) {
-			imprimirln("Usuario Correcto.");
-			contadorError=3;
-			ingresoPin();
-		} else {
-			userIncorrecto();
+		for(int f=0;f<users.length;f++) {
+			if (user.equalsIgnoreCase(users[f])) {
+				auxpin = f;
+				imprimirln("Usuario Correcto.");
+				contadorError=3;
+				f=users.length;
+				ingresoPin();
+			} else {
+				userIncorrecto();
+			}
 		}
+		
+		
 
 	}
 
@@ -75,12 +87,13 @@ public class JavATM {
 
 	private static void comprobarPIN(int pin) { // Metodo para comprobar si el PIN es correcto y cuantos intentos
 												// fallidos
-		if (pin == 1234) { // Comprobación del PIN
-			imprimirln("\nPIN Correcto");
-			seleccionarOpcion();
-		} else {
-			pinIncorrecto();
-		}
+			if (pin == pins[auxpin]) { // Comprobación del PIN
+				imprimirln("\nPIN Correcto");
+				seleccionarOpcion();
+			} else {
+				pinIncorrecto();
+			}
+		
 	}
 
 	private static void pinIncorrecto() { // Metodo para avisar de que el PIN es incorrecto y comprobar cuantos intentos
@@ -103,9 +116,8 @@ public class JavATM {
 	}
 
 	private static void seleccionarOpcion() { // Metodo para seleccionar la opción a realizar
-		boolean bucle = true;
 		int seleccion;
-		while(bucle==true) {
+		while(bucle) {
 			imprimir("\n Elija que desea hacer:\t\t Efectivo: " + efectivo
 					+ "€\n \n 1. Ver Saldo. \n 2. Ingresar. \n 3. Retirar \n 4. Salir. ");
 			imprimir("\n: ");
@@ -175,10 +187,12 @@ public class JavATM {
 	}
 	
 	private static void mostrarSaldo() { // Metodo para mostrar el saldo tras un ingreso o retirada
-		int sel;
-		imprimir("¿Ver saldo? 1/0: ");
-		sel = input();
-		if (sel == 1) {
+		
+		String sel;
+		imprimir("¿Ver saldo? Sí/No: ");
+		sel = inputString();
+		int x = Arrays.binarySearch(si,sel);
+		if (x != -1) {
 			imprimirln("\nSaldo actual: " + saldo + "€");}
 		
 	}
