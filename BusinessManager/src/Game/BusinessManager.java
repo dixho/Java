@@ -4,7 +4,7 @@ import Personal.*;
 /**
 *
 * @author Dixho
-* @version 0.0.1
+* @version 0.0.2
 */
 public class BusinessManager {
 	public static String nombreEmpresa;
