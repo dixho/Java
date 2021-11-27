@@ -41,7 +41,7 @@ public class BusinessManager {
 		imprimir.println("En Business Manager deberás dirigir tu propia empresa");
 		imprimir.println("Cada turno será 1 año, cuando tomes todas las decisiones, se acabará el turno");
 		imprimir.println(
-				"Habrá 5 decisiones con 5 opciones, 3 malas y 2 buenas, el resultado de ese año dependerá de las decisiones que elijas");
+				"Habrá 5 decisiones, 3 malas y 2 buenas, eigirás 2, el resultado de ese año dependerá de las decisiones que elijas");
 		imprimir.println("El juego se gana habiendo llegado con más de 10.000.000 € al decimo turno");
 		imprimir.println(
 				"El juego se pierde si estás en bancarrota (-10.000.000 €) O si no superas el limite al decimo turno");
