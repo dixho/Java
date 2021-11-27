@@ -189,7 +189,7 @@ public class JavATM {
 		String sel;
 		imprimir("¿Ver saldo? Sí/No: ");
 		sel = inputString();
-		int x = Arrays.binarySearch(si,sel);
+		//int x = Arrays.binarySearch(si,sel);
 		for(int f=0;f<si.length;f++) {
 		if (sel.equalsIgnoreCase(si[f])) {
 			imprimirln("\nSaldo actual: " + users.saldo[aux] + "€");}
